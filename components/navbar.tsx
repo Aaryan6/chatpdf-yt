@@ -31,7 +31,11 @@ export default async function Navbar() {
               Chats
             </Link>
           )}
-          <Link href={"/github.com"} className="">
+          <Link
+            href={"https://github.com/Aaryan6/chatpdf-yt"}
+            target="_blank"
+            className=""
+          >
             <IconGithub className="fill-white w-6 h-6 hover:fill-slate-200" />
           </Link>
           <SignedOut>
