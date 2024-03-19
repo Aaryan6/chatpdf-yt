@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import { IconUpload } from "./icons";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import LoadingCircle from "./loading";
 
 export function Dropbox() {
   const [file, setFile] = useState<File | null>(null);
@@ -75,7 +76,7 @@ export function Dropbox() {
         </div>
       ) : !!file ? (
         <div className="space-y-3">
-          {loading && <p>Loading...</p>}
+          {loading && <LoadingCircle />}
           <p>{file.name}</p>
           <p>{(file.size / (1024 * 1024)).toFixed(2)}MB</p>
         </div>

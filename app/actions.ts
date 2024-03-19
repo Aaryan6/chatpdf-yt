@@ -98,8 +98,7 @@ export async function getRecord(record_id: string) {
   }
 }
 
-export async function getChats(chat_id: string) {
-  const { userId } = auth();
+export async function getChats(chat_id: string, userId: string) {
   try {
     const { data, error } = await supabase
       .from("chats")
@@ -112,5 +111,20 @@ export async function getChats(chat_id: string) {
     return data;
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function getUserChats(userId: string) {
+  try {
+    const { data, error } = await supabase
+      .from("chats")
+      .select()
+      .eq("user_id", userId);
+
+    if (error) console.log(error);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 }

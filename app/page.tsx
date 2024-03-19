@@ -1,11 +1,11 @@
 import { Dropbox } from "@/components/dropbox";
 import { Spotlight } from "@/components/spotlight";
 import { Button } from "@/components/ui/button";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 export default function Home() {
   return (
-    <div className="h-full w-full flex md:items-center md:justify-center bg-black/[0.96] antialiased bg-grid-white/[0.02] relative overflow-hidden">
+    <div className="-mt-[5rem] h-full w-full flex md:items-center md:justify-center bg-black/[0.96] antialiased bg-grid-white/[0.02] relative overflow-hidden">
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20"
         fill="white"
@@ -19,9 +19,11 @@ export default function Home() {
           ideas previously left undiscovered.
         </p>
         <SignedOut>
-          <Button variant={"secondary"} className="mt-6 w-fit mx-auto">
-            Get Started
-          </Button>
+          <SignInButton mode="modal" afterSignInUrl="/" afterSignUpUrl="/">
+            <Button variant={"default"} className="mt-6 mx-auto">
+              Get Started
+            </Button>
+          </SignInButton>
         </SignedOut>
         <SignedIn>
           <Dropbox />

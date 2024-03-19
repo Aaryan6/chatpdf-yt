@@ -13,6 +13,7 @@
     "@clerk/nextjs": "^4.29.9",
     "@langchain/community": "^0.0.40",
     "@langchain/google-genai": "^0.0.10",
+    "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-scroll-area": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
     "@supabase/ssr": "^0.1.0",
@@ -33,7 +34,8 @@
     "sonner": "^1.4.3",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
-    "tsx": "^4.7.1"
+    "tsx": "^4.7.1",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/node": "^20",
