@@ -9,6 +9,8 @@ import { loadPdf } from "@/scripts/pdf-loader";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+
 export async function POST(req: Request) {
   try {
     const { userId: user_id } = auth();
