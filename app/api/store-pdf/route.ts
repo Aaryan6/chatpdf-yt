@@ -36,7 +36,6 @@ export async function POST(req: Request) {
     }
 
     const storedFile = await storeDocument(pdf as File, document_id as string);
-    console.log(storedFile);
     const fileUrl = await getDocumentUrl(storedFile!.path);
 
     // create record
@@ -64,7 +63,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         success: true,
-        message: "File embedded successfully!",
+        message: "Document uploaded successfully!",
         data: chat_message,
       },
       {

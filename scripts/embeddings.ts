@@ -18,7 +18,6 @@ export async function generateEmbeddings(docs: any[]) {
     });
     return { success: true, res };
   } catch (error) {
-    console.log("from embedddings", error);
     return { success: false, error };
   }
 }

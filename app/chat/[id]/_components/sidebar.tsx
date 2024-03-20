@@ -6,30 +6,38 @@ import { getUserChats } from "@/app/actions";
 import { useUser } from "@clerk/nextjs";
 import { Chat } from "@/utils/types";
 import { ArrowRight, Home } from "lucide-react";
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useState } from "react";
 import DropboxDialog from "@/components/dropbox-dialog";
-import Link from "next/link";
 import LoadingCircle from "@/components/loading";
 import { usePathname, useRouter } from "next/navigation";
 import { useStore } from "@/lib/zustand";
+import { toast } from "sonner";
 
 type Props = {
   className?: string;
 };
 
 export function ChatSidebar({ className }: Props) {
+  const [loading, setLoading] = useState(false);
   const { user } = useUser();
-  const [IsPending, startTransition] = useTransition();
   const [chats, setChats] = useState<Chat[] | null>(null);
   const router = useRouter();
   const sidebar = useStore((state) => state);
   const path = usePathname();
 
   useEffect(() => {
-    startTransition(async () => {
-      const data = await getUserChats(user?.id!);
-      setChats(data);
-    });
+    try {
+      setLoading(true);
+      (async () => {
+        const data = await getUserChats(user?.id!);
+        setChats(data);
+      })();
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to fetch chats");
+    } finally {
+      setLoading(false);
+    }
   }, [user]);
 
   return (
@@ -51,7 +59,7 @@ export function ChatSidebar({ className }: Props) {
           Chats
         </h2>
         <ScrollArea className="h-full overflow-y-auto">
-          {IsPending && <LoadingCircle />}
+          {loading && <LoadingCircle />}
           {chats?.map(
             (chat, index) =>
               chat.messages.length > 0 && (

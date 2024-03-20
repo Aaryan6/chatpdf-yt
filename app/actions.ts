@@ -6,7 +6,6 @@ export async function storeDocument(pdf: File, document_id: string) {
     const { data, error } = await supabase.storage
       .from("docs")
       .upload(document_id, pdf);
-    console.log(data);
     if (error) console.log(error);
     return data;
   } catch (error) {
@@ -66,7 +65,6 @@ export async function createMessage(record_id: string, user_id: string) {
 }
 
 export async function updateMessages(chat_id: string, messages: any[]) {
-  console.log(messages, chat_id);
   try {
     const { data, error } = await supabase
       .from("chats")

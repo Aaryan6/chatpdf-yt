@@ -6,11 +6,13 @@ import { IconUpload } from "./icons";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import LoadingCircle from "./loading";
+import { useStore } from "@/lib/zustand";
 
 export function Dropbox() {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
+  const item = useStore((state) => state);
 
   const onDrop = useCallback((acceptedFiles: any) => {
     if (acceptedFiles.length > 1) {
@@ -52,6 +54,7 @@ export function Dropbox() {
 
       if (response.success && response.data) {
         toast.success(response.message);
+        item.onDialogClose();
         router.push(`/chat/${response.data[0].id}`);
       } else {
         toast.error(response.message);
