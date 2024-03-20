@@ -11,8 +11,6 @@ import { retrieveDoc } from "@/scripts/retriever";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { updateMessages } from "@/app/actions";
 
-export const runtime = "nodejs";
-
 const formatMessage = (message: VercelChatMessage) => {
   return `${message.role === "assistant" && "model"}: ${message.content}`;
 };

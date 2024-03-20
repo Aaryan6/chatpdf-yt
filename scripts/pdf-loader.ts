@@ -6,11 +6,13 @@ export async function loadPdf(file: Blob, document_id: string) {
   const docs = await loader.load();
 
   const docSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 500,
+    chunkSize: 800,
     chunkOverlap: 100,
   });
 
-  const formattedDoc = docs.map((doc) => {
+  const splitDocs = await docSplitter.splitDocuments(docs);
+
+  const formattedDoc = splitDocs.map((doc) => {
     return {
       pageContent: doc.pageContent.replace(/\n/g, ""),
       metadata: {
@@ -21,5 +23,6 @@ export async function loadPdf(file: Blob, document_id: string) {
       },
     };
   });
+
   return formattedDoc;
 }
