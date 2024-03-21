@@ -5,7 +5,6 @@ import Navbar from "@/components/navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,7 +34,6 @@ export default function RootLayout({
               {children}
               <Toaster />
             </main>
-            <Analytics />
           </ThemeProvider>
         </body>
       </html>
