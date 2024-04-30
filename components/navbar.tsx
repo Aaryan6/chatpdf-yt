@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import { Sidebar } from "./sidebar";
 import { getUserChats } from "@/app/actions";
 import { getSession } from "@/lib/supabase/server";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import UserAvatar from "./avatar";
 
 export default async function Navbar() {
