@@ -1,9 +1,12 @@
 import { Dropbox } from "@/components/dropbox";
 import { Spotlight } from "@/components/spotlight";
 import { Button } from "@/components/ui/button";
-import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { getSession } from "@/lib/supabase/server";
+import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getSession();
+  const user = session?.user;
   return (
     <div className="-mt-[5rem] h-full w-full flex md:items-center md:justify-center bg-black/[0.96] antialiased bg-grid-white/[0.02] relative overflow-hidden">
       <Spotlight
@@ -18,16 +21,15 @@ export default function Home() {
           Chat directly with PDF documents, extracting insights and sparking
           ideas previously left undiscovered.
         </p>
-        <SignedOut>
-          <SignInButton mode="modal" afterSignInUrl="/" afterSignUpUrl="/">
-            <Button variant={"default"} className="mt-6 mx-auto">
+        {!user ? (
+          <Link href={"/signin"} className="mx-auto">
+            <Button variant={"default"} className="mt-6">
               Get Started
             </Button>
-          </SignInButton>
-        </SignedOut>
-        <SignedIn>
+          </Link>
+        ) : (
           <Dropbox />
-        </SignedIn>
+        )}
       </div>
     </div>
   );

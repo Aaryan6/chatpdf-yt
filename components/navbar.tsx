@@ -1,19 +1,16 @@
 import Link from "next/link";
 import { IconGithub } from "./icons";
-import {
-  UserButton,
-  SignedOut,
-  SignedIn,
-  SignInButton,
-  auth,
-} from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 import { Sidebar } from "./sidebar";
 import { getUserChats } from "@/app/actions";
+import { getSession } from "@/lib/supabase/server";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import UserAvatar from "./avatar";
 
 export default async function Navbar() {
-  const { userId } = auth();
-  const chats = await getUserChats(userId!);
+  const session = await getSession();
+  const user = session?.user;
+  const chats = await getUserChats(user?.id as string);
   return (
     <div className={cn("w-full z-[999] px-4 md:px-8")}>
       <div className="max-w-7xl mx-auto flex items-center justify-between h-20">
@@ -38,12 +35,11 @@ export default async function Navbar() {
           >
             <IconGithub className="fill-white w-6 h-6 hover:fill-slate-200" />
           </Link>
-          <SignedOut>
-            <SignInButton mode="modal" afterSignInUrl="/" afterSignUpUrl="/" />
-          </SignedOut>
-          <SignedIn>
-            <UserButton afterSignOutUrl="/" />
-          </SignedIn>
+          {user ? (
+            <UserAvatar user={user} />
+          ) : (
+            <Link href={"/signin"}>Login</Link>
+          )}
           <Sidebar />
         </div>
       </div>

@@ -3,8 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { Toaster } from "@/components/ui/sonner";
-import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
+import SupabaseProvider from "@/lib/supabase/supabase-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
+    <html lang="en">
+      <SupabaseProvider>
         <body className={inter.className}>
           <ThemeProvider
             attribute="class"
@@ -36,7 +36,7 @@ export default function RootLayout({
             </main>
           </ThemeProvider>
         </body>
-      </html>
-    </ClerkProvider>
+      </SupabaseProvider>
+    </html>
   );
 }

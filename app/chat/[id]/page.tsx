@@ -4,7 +4,7 @@ import { Chat as ChatTypes, Record } from "@/utils/types";
 import { redirect } from "next/navigation";
 import PDFViewer from "./_components/pdf-viewer";
 import { ChatSidebar } from "./_components/sidebar";
-import { auth } from "@clerk/nextjs";
+import { getSession } from "@/lib/supabase/server";
 
 type Props = {
   params: {
@@ -13,8 +13,10 @@ type Props = {
 };
 
 export default async function ChatPage({ params: { id } }: Props) {
-  const { userId } = auth();
-  const chats: ChatTypes = await getChats(id, userId!);
+  const session = await getSession();
+  const user = session?.user;
+  if (!user) redirect("/");
+  const chats: ChatTypes = await getChats(id, user!.id);
   if (!chats) redirect("/");
   const record: Record = await getRecord(chats.record_id);
   if (!record) redirect("/");

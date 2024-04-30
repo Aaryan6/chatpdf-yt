@@ -4,14 +4,15 @@ import {
   getDocumentUrl,
   storeDocument,
 } from "@/app/actions";
+import { getSession } from "@/lib/supabase/server";
 import { generateEmbeddings } from "@/scripts/embeddings";
 import { loadPdf } from "@/scripts/pdf-loader";
-import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { userId: user_id } = auth();
+    const session = await getSession();
+    const user = session?.user;
     const body = await req.formData();
     const document_id = body.get("document_id");
     const document_name = body.get("document_name");
@@ -40,7 +41,7 @@ export async function POST(req: Request) {
 
     // create record
     const chat = await createRecord(
-      user_id as string,
+      user!.id as string,
       fileUrl?.data.publicUrl!,
       document_name as string,
       document_id as string
@@ -58,7 +59,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const chat_message = await createMessage(chat[0].id, user_id!);
+    const chat_message = await createMessage(chat[0].id, user!.id);
 
     return NextResponse.json(
       {
@@ -71,7 +72,6 @@ export async function POST(req: Request) {
       }
     );
   } catch (error: any) {
-    console.log(error);
     return NextResponse.json(
       {
         body: "Internal Server Error",

@@ -13,8 +13,8 @@ export async function generateEmbeddings(docs: any[]) {
   try {
     const res = await SupabaseVectorStore.fromDocuments(docs, model, {
       client: supabase,
-      tableName: "documents",
-      queryName: "match_documents",
+      tableName: "chatwithpdf_documents",
+      queryName: "chatwithpdf_match_documents",
     });
     return { success: true, res };
   } catch (error) {

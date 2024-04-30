@@ -1,10 +1,9 @@
 import { supabase } from "@/lib/supabase";
-import { auth } from "@clerk/nextjs";
 
 export async function storeDocument(pdf: File, document_id: string) {
   try {
     const { data, error } = await supabase.storage
-      .from("docs")
+      .from("chatwithpdf_docs")
       .upload(document_id, pdf);
     if (error) console.log(error);
     return data;
@@ -15,7 +14,9 @@ export async function storeDocument(pdf: File, document_id: string) {
 
 export async function getDocumentUrl(path: string) {
   try {
-    const publicUrl = supabase.storage.from("docs").getPublicUrl(path);
+    const publicUrl = supabase.storage
+      .from("chatwithpdf_docs")
+      .getPublicUrl(path);
     return publicUrl;
   } catch (error) {
     console.log(error);
@@ -30,7 +31,7 @@ export async function createRecord(
 ) {
   try {
     const { data, error } = await supabase
-      .from("records")
+      .from("chatwithpdf_record")
       .insert([
         {
           user_id,
@@ -50,7 +51,7 @@ export async function createRecord(
 export async function createMessage(record_id: string, user_id: string) {
   try {
     const { data, error } = await supabase
-      .from("chats")
+      .from("chatwithpdf_chats")
       .insert({
         record_id,
         user_id,
@@ -67,7 +68,7 @@ export async function createMessage(record_id: string, user_id: string) {
 export async function updateMessages(chat_id: string, messages: any[]) {
   try {
     const { data, error } = await supabase
-      .from("chats")
+      .from("chatwithpdf_chats")
       .update({
         messages,
         updated_at: new Date().toISOString(),
@@ -84,7 +85,7 @@ export async function updateMessages(chat_id: string, messages: any[]) {
 export async function getRecord(record_id: string) {
   try {
     const { data, error } = await supabase
-      .from("records")
+      .from("chatwithpdf_record")
       .select()
       .eq("id", record_id)
       .single();
@@ -99,7 +100,7 @@ export async function getRecord(record_id: string) {
 export async function getChats(chat_id: string, userId: string) {
   try {
     const { data, error } = await supabase
-      .from("chats")
+      .from("chatwithpdf_chats")
       .select()
       .eq("id", chat_id)
       .eq("user_id", userId)
@@ -115,7 +116,7 @@ export async function getChats(chat_id: string, userId: string) {
 export async function getUserChats(userId: string) {
   try {
     const { data, error } = await supabase
-      .from("chats")
+      .from("chatwithpdf_chats")
       .select()
       .eq("user_id", userId);
 

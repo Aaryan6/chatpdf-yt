@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getUserChats } from "@/app/actions";
-import { useUser } from "@clerk/nextjs";
 import { Chat } from "@/utils/types";
 import { ArrowRight, Home } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -12,6 +11,7 @@ import LoadingCircle from "@/components/loading";
 import { usePathname, useRouter } from "next/navigation";
 import { useStore } from "@/lib/zustand";
 import { toast } from "sonner";
+import { useSupabase } from "@/lib/supabase/supabase-provider";
 
 type Props = {
   className?: string;
@@ -19,17 +19,20 @@ type Props = {
 
 export function ChatSidebar({ className }: Props) {
   const [loading, setLoading] = useState(false);
-  const { user } = useUser();
   const [chats, setChats] = useState<Chat[] | null>(null);
   const router = useRouter();
   const sidebar = useStore((state) => state);
   const path = usePathname();
+  const { supabase } = useSupabase();
 
   useEffect(() => {
     try {
       setLoading(true);
       (async () => {
-        const data = await getUserChats(user?.id!);
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        const data = await getUserChats(user!.id);
         setChats(data);
       })();
     } catch (error) {
@@ -38,7 +41,7 @@ export function ChatSidebar({ className }: Props) {
     } finally {
       setLoading(false);
     }
-  }, [user]);
+  }, [supabase.auth]);
 
   return (
     <div className={cn("border rounded-xl", className)}>

@@ -11,8 +11,8 @@ const model = new GoogleGenerativeAIEmbeddings({
 export async function retrieveDoc(document_id: string) {
   const vectorStore = new SupabaseVectorStore(model, {
     client: supabase,
-    tableName: "documents",
-    queryName: "match_documents",
+    tableName: "chatwithpdf_documents",
+    queryName: "chatwithpdf_match_documents",
     filter: (rpc) =>
       rpc.filter("metadata->>document_id", "eq", document_id ?? ""),
   });
