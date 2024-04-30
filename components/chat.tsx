@@ -4,7 +4,6 @@ import { Send } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { useChat } from "ai/react";
 import { ScrollArea } from "@/components/ui/scroll-area";
