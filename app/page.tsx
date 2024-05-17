@@ -1,12 +1,7 @@
 import { Dropbox } from "@/components/dropbox";
 import { Spotlight } from "@/components/spotlight";
-import { Button } from "@/components/ui/button";
-import { getSession } from "@/lib/supabase/server";
-import Link from "next/link";
 
-export default async function Home() {
-  const session = await getSession();
-  const user = session?.user;
+export default function Home() {
   return (
     <div className="-mt-[5rem] h-full w-full flex md:items-center md:justify-center bg-black/[0.96] antialiased bg-grid-white/[0.02] relative overflow-hidden">
       <Spotlight
@@ -21,15 +16,7 @@ export default async function Home() {
           Chat directly with PDF documents, extracting insights and sparking
           ideas previously left undiscovered.
         </p>
-        {!user ? (
-          <Link href={"/signin"} className="mx-auto">
-            <Button variant={"default"} className="mt-6">
-              Get Started
-            </Button>
-          </Link>
-        ) : (
-          <Dropbox />
-        )}
+        <Dropbox />
       </div>
     </div>
   );

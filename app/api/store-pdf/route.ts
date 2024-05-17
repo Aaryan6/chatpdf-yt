@@ -11,11 +11,12 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const session = await getSession();
-    const user = session?.user;
+    // const session = await getSession();
+    // const user = session?.user;
     const body = await req.formData();
     const document_id = body.get("document_id");
     const document_name = body.get("document_name");
+    const userId = body.get("userId");
     const pdf = body.get(document_id as string);
 
     // loading pdf
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
 
     // create record
     const chat = await createRecord(
-      user!.id as string,
+      userId as string,
       fileUrl?.data.publicUrl!,
       document_name as string,
       document_id as string
@@ -59,7 +60,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const chat_message = await createMessage(chat[0].id, user!.id);
+    const chat_message = await createMessage(chat[0].id, userId as string);
 
     return NextResponse.json(
       {

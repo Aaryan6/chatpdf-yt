@@ -23,16 +23,13 @@ export function ChatSidebar({ className }: Props) {
   const router = useRouter();
   const sidebar = useStore((state) => state);
   const path = usePathname();
-  const { supabase } = useSupabase();
+  const userId = localStorage.getItem("chatpgm_id");
 
   useEffect(() => {
     try {
       setLoading(true);
       (async () => {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-        const data = await getUserChats(user!.id);
+        const data = await getUserChats(userId!);
         setChats(data);
       })();
     } catch (error) {
@@ -41,7 +38,7 @@ export function ChatSidebar({ className }: Props) {
     } finally {
       setLoading(false);
     }
-  }, [supabase.auth]);
+  }, [userId]);
 
   return (
     <div className={cn("border rounded-xl", className)}>

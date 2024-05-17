@@ -33,6 +33,11 @@ export function Dropbox() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const onSubmit = async (pdf_file: File) => {
+    const userId = localStorage.getItem("chatpgm_id");
+    if (!userId) {
+      toast.error("User not found");
+      return;
+    }
     setLoading(true);
     try {
       const formData = new FormData();
@@ -46,6 +51,7 @@ export function Dropbox() {
       formData.append(document_id, pdf_file);
       formData.append("document_name", pdf_file.name);
       formData.append("document_id", document_id);
+      formData.append("userId", userId);
 
       const response = await fetch("/api/store-pdf", {
         method: "POST",
