@@ -7,7 +7,8 @@ import { getUserChats } from "@/app/actions";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
-  const userId = localStorage.getItem("chatpgm_id");
+  const userId =
+    typeof window !== "undefined" ? localStorage.getItem("chatpgm_id") : null;
   const [chats, setChats] = useState<any>(null);
 
   function generateId() {

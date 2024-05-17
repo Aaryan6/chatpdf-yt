@@ -23,7 +23,8 @@ export function ChatSidebar({ className }: Props) {
   const router = useRouter();
   const sidebar = useStore((state) => state);
   const path = usePathname();
-  const userId = localStorage.getItem("chatpgm_id");
+  const userId =
+    typeof window !== "undefined" ? localStorage.getItem("chatpgm_id") : null;
 
   useEffect(() => {
     try {

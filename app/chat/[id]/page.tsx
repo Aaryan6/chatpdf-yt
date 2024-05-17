@@ -5,7 +5,6 @@ import { Chat as ChatTypes, Record } from "@/utils/types";
 import { redirect } from "next/navigation";
 import PDFViewer from "./_components/pdf-viewer";
 import { ChatSidebar } from "./_components/sidebar";
-import { getSession } from "@/lib/supabase/server";
 import { useEffect, useState } from "react";
 import LoadingCircle from "@/components/loading";
 
@@ -16,10 +15,8 @@ type Props = {
 };
 
 export default function ChatPage({ params: { id } }: Props) {
-  // const session = await getSession();
-  // const user = session?.user;
-  // if (!user) redirect("/");
-  const userId = localStorage.getItem("chatpgm_id");
+  const userId =
+    typeof window !== "undefined" ? localStorage.getItem("chatpgm_id") : null;
   const [chats, setChats] = useState<ChatTypes | null>(null);
   const [record, setRecord] = useState<Record | null>(null);
   useEffect(() => {

@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
-import SupabaseProvider from "@/lib/supabase/supabase-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,22 +20,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <SupabaseProvider>
-        <body className={inter.className}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <main className="h-full flex flex-col w-full bg-background">
-              <Navbar />
-              {children}
-              <Toaster />
-            </main>
-          </ThemeProvider>
-        </body>
-      </SupabaseProvider>
+      <body className={inter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <main className="h-full flex flex-col w-full bg-background">
+            <Navbar />
+            {children}
+            <Toaster />
+          </main>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
