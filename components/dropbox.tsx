@@ -30,7 +30,12 @@ export function Dropbox() {
     setFile(acceptedFiles[0]);
     onSubmit(acceptedFiles[0]);
   }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      "application/pdf": [".pdf"], // Accept only PDF files
+    },
+  });
 
   const onSubmit = async (pdf_file: File) => {
     const userId = localStorage.getItem("chatpgm_id");

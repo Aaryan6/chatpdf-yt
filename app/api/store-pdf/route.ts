@@ -4,10 +4,11 @@ import {
   getDocumentUrl,
   storeDocument,
 } from "@/app/actions";
-import { getSession } from "@/lib/supabase/server";
 import { generateEmbeddings } from "@/scripts/embeddings";
 import { loadPdf } from "@/scripts/pdf-loader";
 import { NextResponse } from "next/server";
+
+export const maxDuration = 30;
 
 export async function POST(req: Request) {
   try {
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
     const docs = await loadPdf(pdf as Blob, document_id as string);
 
     // generating embeddings
-    const { success, error } = await generateEmbeddings(docs);
+    const { success, error, res } = await generateEmbeddings(docs);
 
     if (!success || error) {
       return NextResponse.json(
